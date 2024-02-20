@@ -46,12 +46,15 @@ jobs:
 
     - name: Syn upstream
       run: |
-
-        rm -rf ./luci-app-passwall
-         
-        git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall.git ./pass
-        mv ./pass/luci-app-passwall ./
-        rm -rf ./pass
+        shopt -s extglob
+        set +e
+        function mvdir() {
+        mv -n `find $1/* -maxdepth 0 -type d` ./
+        rm -rf $1
+        }
+        (
+        git_clone https://github.com/xiaorouji/openwrt-passwall && mvdir openwrt-passwall
+        ) &
         
 
         
@@ -109,7 +112,7 @@ jobs:
         touch /tmp/ok
         ) &
         
-        (
+        
         (
         mkdir -p luci-app-passwall/root/www/luci-static/passwall
         cp -rf luci-app-bypass/root/www/luci-static/bypass/* luci-app-passwall/root/www/luci-static/passwall/
