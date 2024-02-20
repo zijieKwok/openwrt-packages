@@ -46,15 +46,12 @@ jobs:
 
     - name: Syn upstream
       run: |
-        shopt -s extglob
-        set +e
-        function mvdir() {
-        mv -n `find $1/* -maxdepth 0 -type d` ./
-        rm -rf $1
-        }
-        (
-        git_clone https://github.com/xiaorouji/openwrt-passwall && mvdir openwrt-passwall
-        ) &
+
+        rm -rf ./luci-app-bypass
+         
+        git clone --depth=1 https://github.com/kiddin9/openwrt-packages.git ./pass
+        mv ./pass/luci-app-bypass ./
+        rm -rf ./pass
         
 
         
