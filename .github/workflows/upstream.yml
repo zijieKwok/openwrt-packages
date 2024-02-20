@@ -49,16 +49,6 @@ jobs:
       run: |
         shopt -s extglob
         set +e
-        git rm -r --cache * >/dev/null 2>&1 &
-        rm -rf `find ./* -maxdepth 0 -type d ! -name ".github/diy"` >/dev/null 2>&1
-        function git_clone() {
-          git clone --depth 1 $1 $2
-          if [ "$?" != 0 ]; then
-            echo "error on $1"
-            pid="$( ps -q $$ )"
-            kill $pid
-          fi
-        }
         function git_sparse_clone() {
           branch="$1" rurl="$2" localdir="$3" && shift 3
           git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
