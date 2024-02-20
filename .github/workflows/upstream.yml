@@ -49,32 +49,6 @@ jobs:
       run: |
         shopt -s extglob
         set +e
-        function git_sparse_clone() {
-          branch="$1" rurl="$2" localdir="$3" && shift 3
-          git clone -b $branch --depth 1 --filter=blob:none --sparse $rurl $localdir
-          if [ "$?" != 0 ]; then
-            echo "error on $rurl"
-            pid="$( ps -q $$ )"
-            kill $pid
-          fi
-          cd $localdir
-          git sparse-checkout init --cone
-          git sparse-checkout set $@
-          mv -n $@ ../ || true
-          cd ..
-          rm -rf $localdir
-          }
-        function git_sparse_clone2() {
-          commitid="$1" rurl="$2" localdir="$3" && shift 3
-          git clone --filter=blob:none --sparse $rurl $localdir
-          cd $localdir
-          git checkout $commitid
-          git sparse-checkout init --cone
-          git sparse-checkout set $@
-          mv -n $@ ../ || true
-          cd ..
-          rm -rf $localdir
-          }
         function mvdir() {
         mv -n `find $1/* -maxdepth 0 -type d` ./
         rm -rf $1
