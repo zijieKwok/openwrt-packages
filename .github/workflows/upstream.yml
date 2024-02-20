@@ -78,10 +78,10 @@ jobs:
         
         
         
-        while [[ ! -f /tmp/ok ||  ! -f /tmp/ok2 ]]; do
-            echo "wait"
-          sleep 1
-        done
+        
+            
+          
+        
 
     - name: Apply
       run: |
